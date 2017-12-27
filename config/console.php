@@ -17,12 +17,21 @@ $config = [
 
     'controllerNamespace' => 'app\commands',
     'components' => [
-//        'authManager' => [
-//            'class' => 'yii\rbac\DbManager',
-//            'itemTable' => 'sxt_auth_item',
-//            'assignmentTable' => 'sxt_auth_assignment',
-//            'itemChildTable' => 'sxt_auth_item_child',
-//        ],
+        'queue' => [
+            'class' => \yii\queue\redis\Queue::class,
+            'as log' => \yii\queue\LogBehavior::class,
+            'ttr' => 5 * 60, // Max time for anything job handling
+            'attempts' => 3, // Max number of attempts
+            // 驱动的其他选项
+        ],
+        'redis' => [
+            'class' => 'yii\redis\Connection',
+            'hostname' => '172.16.28.87',
+            'password' => '91redis',
+            'port' => 6379,
+            'database' => 0,
+        ],
+
         'cache' => [
             'class' => 'yii\caching\FileCache',
 //            'class' => 'yii\redis\Cache',
@@ -38,20 +47,6 @@ $config = [
         'db' => $db,
         'zabbix'       => [
             'class' => 'app\components\ZabbixApiComponent',
-        ],
-
-        'queue' => [
-            'class' => \yii\queue\redis\Queue::class,
-            'as log' => \yii\queue\LogBehavior::class,
-            // 驱动的其他选项
-        ],
-
-        'redis' => [
-            'class' => 'yii\redis\Connection',
-            'hostname' => '172.16.28.87',
-            'password' => '91redis',
-            'port' => 6379,
-            'database' => 0,
         ],
 
     ],

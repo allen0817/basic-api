@@ -21,7 +21,8 @@ class ProblemJob extends BaseObject implements \yii\queue\Job
      */
     public function execute($queue)
     {
-        file_put_contents('a.txt', file_put_contents( $this->data ));
+        //file_put_contents('a.txt', file_put_contents( $this->data ));
+        shell_exec('python /usr/share/zabbix_api/shell/problem.py  \''.$this->data.'\'' );
     }
 
 

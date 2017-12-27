@@ -56,20 +56,23 @@ class Problem
 
 
     public function getProblem(){
-        Yii::$app->response->format = Response::FORMAT_JSON;
+        //Yii::$app->response->format = Response::FORMAT_JSON;
         $maxId = $this->getMaxId();
         $where  = ' p.eventid > '.$maxId;
         $fields = '*';
         $sql = <<<sql
 SELECT $fields from problem as p
 LEFT JOIN  triggers as t on t.triggerid = p.objectid
-LEFT JOIN function as f on  f.triggerid = t.triggerid
-LEFT JOIN  item as i on i.itemid = f.itemid 
+LEFT JOIN functions as f on  f.triggerid = t.triggerid
+LEFT JOIN  items as i on i.itemid = f.itemid 
 LEFT JOIN hosts as h on h.hostid = i.hostid 
 LEFT JOIN interface as ip on ip.hostid = h.hostid
-WHEN  $where
+WHERE  $where
 sql;
-        return Yii::$app->db->createCommand($sql)->queryAll();
+
+        $data = Yii::$app->db->createCommand($sql)->queryAll();
+        return json_encode($data);
+//        return Yii::$app->db->createCommand($sql)->queryAll();
     }
 
     /**
@@ -77,6 +80,7 @@ sql;
      */
     public  function insertQueue(){
         $json = $this->getProblem();
+
         Yii::$app->queue->push(new ProblemJob([
             'data' => $json,
         ]));
