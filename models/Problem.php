@@ -9,7 +9,7 @@
 namespace app\models;
 
 use Yii;
-use yii\web\Response;
+
 use app\models\ProblemJob;
 
 class Problem
@@ -57,6 +57,8 @@ class Problem
 
     public function getProblem(){
         //Yii::$app->response->format = Response::FORMAT_JSON;
+
+
         $maxId = $this->getMaxId();
         $where  = ' p.eventid > '.$maxId;
         $fields = '*';
@@ -71,7 +73,8 @@ WHERE  $where
 sql;
 
         $data = Yii::$app->db->createCommand($sql)->queryAll();
-        return json_encode($data);
+        if(!empty($data)) return json_encode($data);
+        else  return false;
 //        return Yii::$app->db->createCommand($sql)->queryAll();
     }
 
@@ -80,10 +83,11 @@ sql;
      */
     public  function insertQueue(){
         $json = $this->getProblem();
-
-        Yii::$app->queue->push(new ProblemJob([
-            'data' => $json,
-        ]));
+        if($json){
+            Yii::$app->queue->push(new ProblemJob([
+                'data' => $json,
+            ]));
+        }
     }
 
 
