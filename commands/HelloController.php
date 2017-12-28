@@ -12,6 +12,7 @@ use yii\console\Controller;
 use app\models\ProblemJob;
 use Yii;
 use yii\helpers\Json;
+use app\models\Configure;
 
 /**
  * This command echoes the first argument that you have entered.
@@ -32,10 +33,7 @@ class HelloController extends Controller
         $redis = \Yii::$app->redis;
         echo $redis->get('name');
         //echo "hello world\n";
-//      可以
-//        Yii::$app->queue->push(new ProblemJob([
-//            'data' => 'aaaa'
-//        ]));
+
 
     }
 
@@ -64,7 +62,12 @@ class HelloController extends Controller
      */
     public function actionConfig(){
 
-        var_dump($_SERVER['argv']); //脚本参数
+        $hostid = $_SERVER['argv'];
+        if($hostid){
+            $config = new Configure();
+            $config->insertQueue($hostid);
+        }
+
     }
 
 }

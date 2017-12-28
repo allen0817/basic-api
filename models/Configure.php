@@ -31,16 +31,12 @@ sql;
 
         $data = Yii::$app->db->createCommand($sql)->queryAll();
         if(!empty($data)) return json_encode($data);
-
         exit();
-
-
-
 
     }
 
-    public function insertQueue(){
-        $json = $this->getHost();
+    public function insertQueue($hostid){
+        $json = $this->getHost($hostid);
         Yii::$app->queue->push(new ConfigureJob([
             'data' => $json,
         ]));
