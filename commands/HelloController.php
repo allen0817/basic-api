@@ -54,15 +54,12 @@ class HelloController extends Controller
 //shell_exec('python /tmp/p.py "come form python"');
 //shell_exec('python /tmp/p.py  "'.$name.'" ' );
 
-    //shell_exec("./chuanzhi.sh  $zhi1 $zhi2");
     /**
-     * 尝试
+     * 手动更新，修改源码
+     * shell 传 hostid 过来
+     * php查询处理
      *
-     * shell -> php
-     *
-     * 调用php脚本，带参数
-     *
-     *
+     * var_dump($_SERVER['argv']); //脚本参数
      *
      */
     public function actionConfig(){

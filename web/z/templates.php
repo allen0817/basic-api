@@ -19,6 +19,7 @@
 **/
 
 
+
 require_once dirname(__FILE__).'/include/config.inc.php';
 require_once dirname(__FILE__).'/include/hostgroups.inc.php';
 require_once dirname(__FILE__).'/include/hosts.inc.php';
@@ -86,6 +87,7 @@ $fields = [
 ];
 check_fields($fields);
 
+
 /*
  * Permissions
  */
@@ -98,6 +100,9 @@ if (getRequest('templateid')) {
 		'templateids' => getRequest('templateid'),
 		'editable' => true
 	]);
+
+
+
 
 	if (!$templates) {
 		access_deny();
@@ -164,6 +169,7 @@ elseif (isset($_REQUEST['full_clone']) && isset($_REQUEST['templateid'])) {
 	$_REQUEST['hosts'] = [];
 }
 elseif (hasRequest('add') || hasRequest('update')) {
+
 	try {
 		DBstart();
 
@@ -245,7 +251,6 @@ elseif (hasRequest('add') || hasRequest('update')) {
 			'macros' => getRequest('macros', []),
 			'description' => getRequest('description', '')
 		];
-
 		if ($templateId == 0) {
 			$result = API::Template()->create($template);
 

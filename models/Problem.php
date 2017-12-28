@@ -74,7 +74,8 @@ sql;
 
         $data = Yii::$app->db->createCommand($sql)->queryAll();
         if(!empty($data)) return json_encode($data);
-        else  return false;
+
+        exit();
 //        return Yii::$app->db->createCommand($sql)->queryAll();
     }
 
@@ -83,11 +84,9 @@ sql;
      */
     public  function insertQueue(){
         $json = $this->getProblem();
-        if($json){
-            Yii::$app->queue->push(new ProblemJob([
-                'data' => $json,
-            ]));
-        }
+        Yii::$app->queue->push(new ProblemJob([
+            'data' => $json,
+        ]));
     }
 
 
