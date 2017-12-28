@@ -54,11 +54,29 @@ class Problem
         Yii::$app->redis->set(self::PROBLEM_ID,$maxId);
     }
 
-
     public function getProblem(){
+        $maxId = $this->getMaxId();
+        $where  = ' p.eventid > '.$maxId;
+        $fields = '*';
+
+        $problem = Yii::$app->db->createCommand('SELECT * from problem where eventid > :maxid')->bindValue('maxid',$maxId)->queryOne();
+
+        if(!empty($problem)){
+            $triggers = Yii::$app->db->createCommand('SELECT * from triggers where triggerid > :value')->bindValue('value',$problem['objectid'])->queryOne();
+            $functions = Yii::$app->db->createCommand('SELECT * from functions where triggerid > :value')->bindValue('value',$triggers['triggerid'])->queryOne();
+            $items = Yii::$app->db->createCommand('SELECT * from items where itemid > :value')->bindValue('value',$functions['itemid'])->queryOne();
+            $data = compact('problem','triggers','functions','items');
+            return json_encode($data);
+
+        }
+        exit;
+    }
+
+
+
+
+    public function getProblem1(){
         //Yii::$app->response->format = Response::FORMAT_JSON;
-
-
         $maxId = $this->getMaxId();
         $where  = ' p.eventid > '.$maxId;
         $fields = '*';
@@ -76,7 +94,6 @@ sql;
         if(!empty($data)) return json_encode($data);
 
         exit();
-//        return Yii::$app->db->createCommand($sql)->queryAll();
     }
 
     /**

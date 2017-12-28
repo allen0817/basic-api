@@ -7,6 +7,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
+use app\models\Configure;
 
 
 class SiteController extends Controller
@@ -60,7 +61,15 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+//        $json = '';
+//
+//        echo "<pre>";
+//        print_r( json_decode($json) );
+
+//        $m = new Configure();
+//        $m->getHost(10339);
+
+
     }
 
     /**
