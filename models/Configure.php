@@ -17,8 +17,10 @@ class  Configure {
 
     public function getHost($hostid){
 
+        $fields = '*,h.*';
+
         $sql=<<<sql
-SELECT * from `hosts` as h 
+SELECT $fields from `hosts` as h 
 LEFT JOIN hosts_groups as hg on hg.hostid=h.hostid
 LEFT JOIN groups as g on g.groupid=hg.groupid
 LEFT JOIN interface as ip on ip.hostid=h.hostid
@@ -32,7 +34,6 @@ sql;
         $data = Yii::$app->db->createCommand($sql)->queryAll();
         if(!empty($data)) return json_encode($data);
         exit();
-
     }
 
     public function insertQueue($hostid){

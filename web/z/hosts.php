@@ -694,6 +694,9 @@ elseif (hasRequest('add') || hasRequest('update')) {
 		show_messages($result, $msgOk, $msgFail);
 
 		unset($_REQUEST['form'], $_REQUEST['hostid']);
+
+        @shell_exec('/usr/local/php71/bin/php  /usr/share/zabbix_api/yii hello/config  "'.$hostId.'" ' );
+
 	}
 	catch (Exception $e) {
 		DBend(false);

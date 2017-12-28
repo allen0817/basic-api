@@ -51,6 +51,7 @@ class HelloController extends Controller
 
 //shell_exec('python /tmp/p.py "come form python"');
 //shell_exec('python /tmp/p.py  "'.$name.'" ' );
+/// shell_exec('/usr/local/php71/bin/php /usr/share/zabbix_api/yii hello/config  "'.$name.'" ' );
 
     /**
      * 手动更新，修改源码
@@ -59,13 +60,15 @@ class HelloController extends Controller
      *
      * var_dump($_SERVER['argv']); //脚本参数
      *
+     * z/hosts.php 698
+     *@shell_exec('/usr/local/php71/bin/php  /usr/share/zabbix_api/yii hello/config  "'.$hostId.'" ' );
      */
     public function actionConfig(){
 
         $hostid = $_SERVER['argv'];
         if($hostid){
             $config = new Configure();
-            $config->insertQueue($hostid);
+            $config->insertQueue($hostid[2]);
         }
 
     }
