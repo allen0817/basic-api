@@ -44,5 +44,10 @@ class OnlyOne
     }
 
 
+    public function  handleProblemRecovery(){
+        $m = new Problem();
+        $m->insertQueueRecovery();
+    }
+
 
 }

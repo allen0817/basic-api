@@ -49,6 +49,10 @@ class HelloController extends Controller
         OnlyOne::getInstance()->handleProblem();
     }
 
+    public function actionProblemRecovery(){
+        OnlyOne::getInstance()->handleProblemRecovery();
+    }
+
 //shell_exec('python /tmp/p.py "come form python"');
 //shell_exec('python /tmp/p.py  "'.$name.'" ' );
 /// shell_exec('/usr/local/php71/bin/php /usr/share/zabbix_api/yii hello/config  "'.$name.'" ' );
