@@ -16,9 +16,9 @@ use app\models\ProblemRecoveryJob;
 class Problem
 {
 
-    const PROBLEM_ID  = 0; //告警最大的ID
+    const PROBLEM_ID  = 'PROBLEM_ID'; //告警最大的ID
 
-    const PROBLEM_RECOVERY_ID  = 0; //告警恢复最大的ID
+    const PROBLEM_RECOVERY_ID  = 'PROBLEM_RECOVERY_ID'; //告警恢复最大的ID
 
     /**返回 最大的problem id
      * @return mixed
@@ -28,21 +28,18 @@ class Problem
     public function getMaxId(){
         $maxId = Yii::$app->redis->get(self::PROBLEM_ID);
 
-        $sql = 'SELECT max(eventid) as maxId from problem';
-        $result = Yii::$app->db->createCommand($sql)->queryOne();
-
         $cache = 0;
-        if(!empty($result)){
-            $cache = $result['maxId'];
-            if(!$maxId){
-                $maxId = $result['maxId'];
-            }
-            elseif ($maxId == $result || $maxId > $result ){
-                exit();
-            }
+        if(!$maxId) {
+            $sql = 'SELECT max(eventid) as maxId from problem';
+            $tmp = Yii::$app->db->createCommand($sql)->queryOne();
+            $cache = $maxId = $tmp['maxId'];
         }else{
-            exit();
+            $sql = 'SELECT max(eventid) as maxId from problem';
+            $result = Yii::$app->db->createCommand($sql)->queryOne();
+            $cache = $result['maxId'];
         }
+
+//        Yii::info($maxId);
 
         $this->setMaxId($cache);
         return $maxId;
