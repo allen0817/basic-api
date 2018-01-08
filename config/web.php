@@ -23,7 +23,7 @@ $config = [
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'server/error',
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
@@ -42,14 +42,13 @@ $config = [
         'zabbix'       => [
             'class' => 'app\components\ZabbixApiComponent',
         ],
-        /*
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [
-            ],
+            'rules' => require(__DIR__ . '/restful.php'),
         ],
-        */
+
     ],
     'params' => $params,
 ];
